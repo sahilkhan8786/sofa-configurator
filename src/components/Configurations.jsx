@@ -20,7 +20,7 @@ export default function Configurations({ setSofaTexture, setCushionTexture }) {
 
 
     return (
-        <article>
+        <article className='absolute top-0 left-0'>
             <h1>Configurations</h1>
             <div>
                 <h2>Cushions</h2>

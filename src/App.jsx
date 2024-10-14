@@ -1,6 +1,6 @@
-import React, { Suspense, useState, useCallback } from "react";
-import Configurations from "./components/Configurations";
-import ModelCanvas from "./components/ModelCanvas";
+import React, { Suspense, useState, useCallback, lazy } from "react";
+const Configurations = lazy(() => import("./components/Configurations"));
+const ModelCanvas = lazy(() => import("./components/ModelCanvas"));
 import { useGLTF, useTexture } from '@react-three/drei';
 
 // Preload assets

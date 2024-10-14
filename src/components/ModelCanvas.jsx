@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
+import React, { lazy, memo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Center, AccumulativeShadows, RandomizedLight, Environment, OrbitControls } from '@react-three/drei';
-import Model from '../Sofa_scene';
+const Model = lazy(() => import('../Sofa_scene'));
 
 // Memoize the Model component to avoid re-renders
 const MemoizedModel = memo(Model);

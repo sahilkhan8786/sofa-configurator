@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { lazy, useEffect } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
-import sofaScene from './assets/sofa_scene.glb';
+const sofaScene = lazy(() => import('./assets/sofa_scene.glb'));
 import { useGLTF } from '@react-three/drei';
 
 export const Model = React.memo(({ sofaTextureImage, cushionTextureImage }) => {

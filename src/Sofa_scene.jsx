@@ -1,35 +1,24 @@
+
 import React, { useEffect } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
 import sofaScene from './assets/sofa_scene.glb';
-import { useGLTF, useTexture } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 
-// SOFA TEXTURES
-import sofaNormal from './assets/sofa_normal.webp';
-import sofaRoughness from './assets/sofa_roughness.webp';
-import sofa from './assets/sofa.webp';
-
-// CUSHION TEXTURES
-import cushionNormal from './assets/cushion_normal.webp';
-import cushionRoughness from './assets/cushion_roughness.webp';
-import cushionWhite from './assets/cushion_white.webp';
-import cushionYellow from './assets/cushion_yellow.webp';
-
-
-
-export function Model({ sofaTextureImage, cushionTextureImage }) {
+export const Model = React.memo(({ sofaTextureImage, cushionTextureImage }) => {
   const { nodes, materials } = useGLTF(sofaScene);
 
-  // Load the WebP textures
+  // Load the textures
   const cushionTexture = useLoader(TextureLoader, cushionTextureImage);
   const sofaTexture = useLoader(TextureLoader, sofaTextureImage);
 
-  // useEffect(() => {
-  materials['Cusion white'].map = cushionTexture;
-  materials['rød black'].map = sofaTexture;
-  // }, [cushionTexture, sofaTexture, materials]);
-
-
+  // Update textures without re-rendering the entire scene
+  useEffect(() => {
+    materials['Cusion white'].map = cushionTexture;
+    materials['rød black'].map = sofaTexture;
+    materials['Cusion white'].needsUpdate = true;
+    materials['rød black'].needsUpdate = true;
+  }, [cushionTexture, sofaTexture, materials]);
 
   return (
     <group dispose={null}>
@@ -71,8 +60,7 @@ export function Model({ sofaTextureImage, cushionTextureImage }) {
       </group>
     </group>
   );
-}
+});
 
-// Preload the GLTF model and the textures used in the component
 useGLTF.preload(sofaScene);
-useTexture.preload([sofaNormal, sofaRoughness, sofa, cushionNormal, cushionRoughness, cushionWhite, cushionYellow]);
+export default Model

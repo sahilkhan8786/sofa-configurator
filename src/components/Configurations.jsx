@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import sofaNormal from '../assets/sofa_normal.webp';
 import sofaRoughness from '../assets/sofa_roughness.webp';
 import sofaBlack from '../assets/Sofa__black.webp';
-import sofaBlue from '../assets/Sofa_bue.webp';
+import sofaBlue from '../assets/sofa_bue.webp';
 import sofa from '../assets/sofa.webp';
 
 // CUSHION TEXTURES

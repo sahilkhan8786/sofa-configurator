@@ -1,10 +1,8 @@
 import { useThree, useFrame } from '@react-three/fiber'
-import { EffectComposer, RenderPass, EffectPass, SMAAEffect, FXAAEffect } from 'postprocessing'
+import { EffectComposer, RenderPass, EffectPass } from 'postprocessing'
 import { useEffect, useState } from 'react'
 
-import { SSGIEffect, TRAAEffect, MotionBlurEffect, VelocityDepthNormalPass } from './realism-effects/index'
-//import { SSGIEffect, TRAAEffect, MotionBlurEffect, VelocityDepthNormalPass } from './realism-effects/v2'
-//import { SSGIEffect, TRAAEffect, MotionBlurEffect, VelocityDepthNormalPass } from './realism-effects/gdata-in-float'
+import { SSGIEffect, TRAAEffect, VelocityDepthNormalPass } from './realism-effects/index'
 
 export function Effects({ importanceSampling }) {
     const gl = useThree((state) => state.gl)
@@ -44,13 +42,10 @@ export function Effects({ importanceSampling }) {
 
         const ssgiEffect = new SSGIEffect(composer, scene, camera, velocityDepthNormalPass, config)
 
-        const motionBlur = new MotionBlurEffect(velocityDepthNormalPass)
         const traa = new TRAAEffect(scene, camera, velocityDepthNormalPass)
-        const smaa = new SMAAEffect()
-        const fxaa = new FXAAEffect()
+
 
         const effectPass1 = new EffectPass(camera, ssgiEffect)
-        const effectPass2 = new EffectPass(camera, motionBlur)
         const effectPass3 = new EffectPass(camera, traa)
 
         composer.addPass(effectPass1)

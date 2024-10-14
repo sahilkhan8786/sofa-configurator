@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
@@ -8,16 +7,29 @@ import { useGLTF } from '@react-three/drei';
 export const Model = React.memo(({ sofaTextureImage, cushionTextureImage }) => {
   const { nodes, materials } = useGLTF(sofaScene);
 
-  // Load the textures
+  // Load textures only when the props change
   const cushionTexture = useLoader(TextureLoader, cushionTextureImage);
   const sofaTexture = useLoader(TextureLoader, sofaTextureImage);
 
-  // Update textures without re-rendering the entire scene
+  // Update materials without unnecessary re-renders
   useEffect(() => {
-    materials['Cusion white'].map = cushionTexture;
-    materials['rød black'].map = sofaTexture;
-    materials['Cusion white'].needsUpdate = true;
-    materials['rød black'].needsUpdate = true;
+    const updateMaterials = () => {
+      if (materials['Cusion white'].map !== cushionTexture) {
+        materials['Cusion white'].map = cushionTexture;
+        materials['Cusion white'].needsUpdate = true;
+      }
+      if (materials['rød black'].map !== sofaTexture) {
+        materials['rød black'].map = sofaTexture;
+        materials['rød black'].needsUpdate = true;
+      }
+    };
+
+    updateMaterials(); // Call the update function
+
+    // Return a cleanup function to avoid memory leaks if necessary
+    return () => {
+      // Clean up if needed
+    };
   }, [cushionTexture, sofaTexture, materials]);
 
   return (
@@ -62,5 +74,6 @@ export const Model = React.memo(({ sofaTextureImage, cushionTextureImage }) => {
   );
 });
 
+// Preload the GLTF model to improve load time
 useGLTF.preload(sofaScene);
-export default Model
+export default Model;
